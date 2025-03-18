@@ -1,9 +1,27 @@
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loadingWindow").style.display = "block";
+    
+    let progress = document.querySelector(".progress");
+    let width = 0;
+
+    let interval = setInterval(function () {
+        width += 10;
+        progress.style.width = width + "%";
+
+        if (width >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                document.getElementById("loadingWindow").style.display = "none";
+                document.getElementById("weatherWindow").style.display = "block";
+            }, 500);
+        }
+    }, 500);
+});
+
 function checkWeather() {
     let location = document.getElementById("location").value;
-    let result = document.getElementById("result");
-
-    if (location.trim() === "") {
-        result.innerText = "Please enter a location!";
+    
+    if (!location.trim()) {
         return;
     }
 
@@ -16,5 +34,11 @@ function checkWeather() {
     ];
 
     let randomIndex = Math.floor(Math.random() * randomResponses.length);
-    alert(randomResponses[randomIndex]);
+    
+    document.getElementById("alertMessage").innerText = randomResponses[randomIndex];
+    document.getElementById("alertBox").style.display = "block";
+}
+
+function closeAlert() {
+    document.getElementById("alertBox").style.display = "none";
 }
